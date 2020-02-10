@@ -1,5 +1,5 @@
 import KeyActionsHandler from './key_actions_handler';
-import config from '../config';
+import config from '../../config';
 
 class KeysHandler extends KeyActionsHandler {
     startKeysListening() {

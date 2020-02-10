@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import KeysHandler from './keys_handler';
+import KeysHandler from './game_engine/keys_handler';
 
 (new KeysHandler(store)).startKeysListening();
 
