@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import config from '../../config';
 import { connect } from 'react-redux';
 import { cloneDeep } from 'lodash';
-import { clearRows, replaceCurrentTetromino } from '../../actions';
+import { clearRows } from '../../actions';
 import { bindActionCreators } from 'redux';
 import Cell from '../cell';
 import { BoardArea } from './styles';
 
-const Board = ({ cells, currentTetromino, clearRows, replaceCurrentTetromino }) => {
+const Board = ({ cells, currentTetromino, clearRows }) => {
     const Cells = () => {
         return mergeCellsWithCurrentTetromino().map((row, rowIndex) => row.map((cell, cellIndex) => <Cell onClick={() => { clearRows(rowIndex, 1) }} key={rowIndex * 10 + cellIndex} color={cell && config.COLORS[cell]} />));
     }
@@ -30,10 +30,6 @@ const Board = ({ cells, currentTetromino, clearRows, replaceCurrentTetromino }) 
         return resultCells;
     }
 
-    useEffect(() => {
-        setTimeout(() => setInterval(() => replaceCurrentTetromino(currentTetromino.x, ++currentTetromino.y), 100), 1000);
-    }, []);
-
     return (
         <BoardArea>
             <Cells />
@@ -47,8 +43,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    clearRows: bindActionCreators(clearRows, dispatch),
-    replaceCurrentTetromino: bindActionCreators(replaceCurrentTetromino, dispatch)
+    clearRows: bindActionCreators(clearRows, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Board);

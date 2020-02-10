@@ -12,11 +12,12 @@ const Config = {
         'red',
         'black'
     ],
-    keys: {
+    KEYS: {
         LEFT: 37,
         RIGHT: 39,
         DOWN: 40
-    }
+    },
+    DROP_SPEED: 100
 }
 
 Object.freeze(Config);
