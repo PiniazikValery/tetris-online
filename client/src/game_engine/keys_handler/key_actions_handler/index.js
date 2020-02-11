@@ -20,7 +20,7 @@ class KeyActionsHandler {
         this.actionsArray.forEach(element => {
             switch (element.keyCode) {
                 case config.KEYS.DOWN: {
-                    if (this.collisionDetector.willBeWallCollision({
+                    if (this.collisionDetector.detectWallsAndCellsCollision({
                         x: offset.x,
                         y: offset.y + 1
                     })) {
@@ -29,7 +29,7 @@ class KeyActionsHandler {
                     break;
                 }
                 case config.KEYS.LEFT: {
-                    if (this.collisionDetector.willBeWallCollision({
+                    if (this.collisionDetector.detectWallsAndCellsCollision({
                         x: offset.x - 1,
                         y: offset.y
                     })) {
@@ -38,7 +38,7 @@ class KeyActionsHandler {
                     break;
                 }
                 case config.KEYS.RIGHT: {
-                    if (this.collisionDetector.willBeWallCollision({
+                    if (this.collisionDetector.detectWallsAndCellsCollision({
                         x: offset.x + 1,
                         y: offset.y
                     })) {
@@ -47,7 +47,7 @@ class KeyActionsHandler {
                     break;
                 }
                 default: {
-                    if (this.collisionDetector.willBeWallCollision({
+                    if (this.collisionDetector.detectWallsAndCellsCollision({
                         x: offset.x,
                         y: offset.y - 1
                     })) {

@@ -21,6 +21,33 @@ class CollisionDetector {
             }
         }));
     }
+
+    willBeCellsCollision(offset) {
+        let { currentTetromino, cells } = this.store.getState();
+        let safeCurrTetromino = cloneDeep(currentTetromino);
+        let safeCells = cloneDeep(cells);
+        safeCurrTetromino.x = safeCurrTetromino.x + offset.x;
+        safeCurrTetromino.y = safeCurrTetromino.y + offset.y;
+        return !safeCurrTetromino.shape.some((tetroRow, tetroRowIndex) => tetroRow.some((tetroCell, tetroColIndex) => {
+            if (tetroCell) {
+                let tetroXPosition = tetroColIndex + safeCurrTetromino.x;
+                let tetroYPosition = tetroRowIndex + safeCurrTetromino.y;
+                return safeCells.some((cellsRow, cellsRowIndex) => cellsRow.some((boardCell, cellsColIndex) => {
+                    if (boardCell) {
+                        return (tetroXPosition === cellsColIndex) && (tetroYPosition === cellsRowIndex);
+                    } else {
+                        return false;
+                    }
+                }))
+            } else {
+                return false;
+            }
+        }));
+    }
+
+    detectWallsAndCellsCollision(offset) {
+        return this.willBeCellsCollision(offset) && this.willBeWallCollision(offset);
+    }
 }
 
 export default CollisionDetector;
