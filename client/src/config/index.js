@@ -17,7 +17,7 @@ const Config = {
         RIGHT: 39,
         DOWN: 40
     },
-    DROP_SPEED: 100
+    DROP_SPEED: 50
 }
 
 Object.freeze(Config);
