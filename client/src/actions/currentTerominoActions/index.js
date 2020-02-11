@@ -6,3 +6,8 @@ export const replaceCurrentTetromino = (x, y) => ({
         x, y
     }
 });
+
+export const setCurrentTetromino = (newTetromino) => ({
+    type: CONSTANTS.SET_CURRENT_TETROMINO,
+    payload: newTetromino
+});

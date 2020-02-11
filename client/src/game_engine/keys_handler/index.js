@@ -4,10 +4,10 @@ import config from '../../config';
 class KeysHandler extends KeyActionsHandler {
     startKeysListening() {
         document.addEventListener('keydown', event => {
-            if (event.keyCode === config.KEYS.DOWN) {
+            if (config.KEYS.HOLDABLE_KEYS.includes(event.keyCode)) {
                 this.SingleClick = true;
-                if (!this.holdInterval) {
-                    this.holdInterval = setInterval(() => {
+                if (!this[`hold${event.keyCode}`]) {
+                    this[`hold${event.keyCode}`] = setInterval(() => {
                         this.SingleClick = false;
                         this.actionsArray.push(event);
                     }, config.DROP_SPEED);
@@ -21,9 +21,9 @@ class KeysHandler extends KeyActionsHandler {
                 this.SingleClick = false;
                 this.actionsArray.push(event);
             }
-            if (this.holdInterval) {
-                clearInterval(this.holdInterval);
-                this.holdInterval = undefined;
+            if (this[`hold${event.keyCode}`]) {
+                clearInterval(this[`hold${event.keyCode}`]);
+                this[`hold${event.keyCode}`] = undefined;
             }
         });
     }
