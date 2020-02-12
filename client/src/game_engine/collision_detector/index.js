@@ -28,6 +28,27 @@ class CollisionDetector {
             }
         }));
     }
+
+    getAvaliableClosePosition(tetromino) {
+        let tetrominoCopy = cloneDeep(tetromino);
+        for (let x = 0; x < tetrominoCopy.shape.length; x++) {
+            tetrominoCopy.x = tetrominoCopy.x + x;
+            if (this.isCollides(tetrominoCopy)) {
+                return tetrominoCopy;
+            }
+            tetrominoCopy.x = tetrominoCopy.x - x * 2;
+            if (this.isCollides(tetrominoCopy)) {
+                return tetrominoCopy;
+            }
+            tetrominoCopy.x = tetrominoCopy.x + x;
+            tetrominoCopy.y = tetrominoCopy.y - x;
+            if (this.isCollides(tetrominoCopy)) {
+                return tetrominoCopy;
+            }
+            tetrominoCopy.y = tetrominoCopy.y + x;
+        }
+        return undefined;
+    }
 }
 
 export default CollisionDetector;

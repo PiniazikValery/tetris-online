@@ -1,4 +1,4 @@
-import { replaceCurrentTetromino, setCurrentTetromino } from '../../../actions';
+import { setCurrentTetromino } from '../../../actions';
 import config from '../../../config';
 import { cloneDeep } from 'lodash';
 import CollisionDetector from '../../collision_detector';
@@ -60,25 +60,16 @@ class KeyActionsHandler {
                     }
                     break;
                 }
-                // for testing
-                case 38: {
-                    if (this.collisionDetector.isCollides(
-                        currentTetromino,
-                        {
-                            x: offset.x,
-                            y: offset.y - 1
-                        })) {
-                        offset.y--;
-                    }
-                    break;
-                }
-                // for testing
                 default: {
                     break;
                 }
             }
         });
-        this.store.dispatch(replaceCurrentTetromino(currentTetromino.x + offset.x, currentTetromino.y + offset.y));
+        this.store.dispatch(setCurrentTetromino({
+            ...currentTetromino,
+            x: currentTetromino.x + offset.x,
+            y: currentTetromino.y + offset.y
+        }));
     }
 
     handleRotation() {
@@ -94,7 +85,10 @@ class KeyActionsHandler {
                     }
                 }
                 safeCurrentTetromino.shape.forEach(row => row.reverse());
-                if (!this.collisionDetector.isCollides(safeCurrentTetromino)) {
+                let replacedTetromino = this.collisionDetector.getAvaliableClosePosition(safeCurrentTetromino);
+                if (replacedTetromino) {
+                    safeCurrentTetromino = { ...safeCurrentTetromino, x: replacedTetromino.x, y: replacedTetromino.y };
+                } else {
                     safeCurrentTetromino.shape = originShape;
                 }
             }

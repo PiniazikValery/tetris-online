@@ -13,7 +13,7 @@ const Config = {
         'black'
     ],
     KEYS: {
-        get HOLDABLE_KEYS() { return [this.LEFT, this.RIGHT, this.DOWN, 38] },
+        get HOLDABLE_KEYS() { return [this.LEFT, this.RIGHT, this.DOWN] },
         LEFT: 37,
         RIGHT: 39,
         DOWN: 40,
