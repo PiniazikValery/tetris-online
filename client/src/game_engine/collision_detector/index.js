@@ -20,7 +20,7 @@ class CollisionDetector {
                     if (boardCell) {
                         return ((tetroXPosition === cellsColIndex) && (tetroYPosition === cellsRowIndex)) ? true : (!(tetroYPosition >= 0 && tetroYPosition < config.ROWS) || !(tetroXPosition >= 0 && tetroXPosition < config.COLS));
                     } else {
-                        return false;
+                        return (!(tetroYPosition >= 0 && tetroYPosition < config.ROWS) || !(tetroXPosition >= 0 && tetroXPosition < config.COLS));
                     }
                 }))
             } else {
