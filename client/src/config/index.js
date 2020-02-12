@@ -13,11 +13,13 @@ const Config = {
         'black'
     ],
     KEYS: {
+        get HOLDABLE_KEYS() { return [this.LEFT, this.RIGHT, this.DOWN] },
         LEFT: 37,
         RIGHT: 39,
-        DOWN: 40
+        DOWN: 40,
+        ROTATE: 32
     },
-    DROP_SPEED: 50
+    DROP_SPEED: 60
 }
 
 Object.freeze(Config);
