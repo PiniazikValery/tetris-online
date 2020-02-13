@@ -27,14 +27,15 @@ class GameLoop {
                         setTimeout(() => {
                             this.gameLoopIsStoped = false;
                             let { currentTetromino } = this.store.getState();
-                            this.store.dispatch(setCurrentTetromino({ ...currentTetromino, y: currentTetromino.y + 1 }))
+                            if (!currentTetromino.y)
+                                this.store.dispatch(setCurrentTetromino({ ...currentTetromino, y: currentTetromino.y + 1 }))
                         }, 1000);
                     } else {
                         this.store.dispatch(setCurrentTetromino({ ...currentTetromino, y: currentTetromino.y + 1 }));
                     }
                 }
             }
-        }, 10);
+        }, 1000);
     }
 }
 

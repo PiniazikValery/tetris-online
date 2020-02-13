@@ -21,11 +21,19 @@ class GameVerifier {
                     this.verifierIsStoped = true;
                     this.dropTimeOut = setTimeout(() => {
                         this.verifierIsStoped = false;
-                        this.store.dispatch(setCurrentTetromino({ ...currentTetromino, y: 0 }))
+                        let { currentTetromino } = this.store.getState();
+                        if (!this.collisionDetector.isCollides(
+                            currentTetromino,
+                            {
+                                x: 0,
+                                y: 1
+                            }
+                        ))
+                            this.store.dispatch(setCurrentTetromino({ ...currentTetromino, y: 0, x: 3 }))
                     }, 1000);
                 }
             }
-        }, 100);
+        }, 10);
     }
 }
 
