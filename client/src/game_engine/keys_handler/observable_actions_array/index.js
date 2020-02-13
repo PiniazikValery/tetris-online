@@ -92,6 +92,15 @@ function ObservableActionsArray(items) {
         }
     })
 
+    Object.defineProperty(_self, "includesActionByKey", {
+        configurable: false,
+        enumerable: false,
+        writable: false,
+        value: function (key) {
+            return _array.some(action => action.keyCode === key);
+        }
+    })
+
     Object.defineProperty(_self, "length", {
         configurable: false,
         enumerable: false,

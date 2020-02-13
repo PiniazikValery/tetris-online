@@ -17,7 +17,8 @@ const Config = {
         LEFT: 37,
         RIGHT: 39,
         DOWN: 40,
-        ROTATE: 32
+        ROTATE: 32,
+        HARD_DROP: 68
     },
     DROP_SPEED: 60
 }
