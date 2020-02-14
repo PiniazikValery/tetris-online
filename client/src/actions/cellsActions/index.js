@@ -11,3 +11,10 @@ export const clearRows = (startIndex, count) => ({
         count
     }
 });
+
+export const mergeTetromino = tetromino => ({
+    type: CONSTANTS.MERGE_TETROMINO,
+    payload: {
+        tetromino
+    }
+});

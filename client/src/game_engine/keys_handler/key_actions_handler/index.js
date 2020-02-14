@@ -1,14 +1,15 @@
-import { setCurrentTetromino } from '../../../actions';
+import { setCurrentTetromino, mergeTetromino } from '../../../actions';
 import config from '../../../config';
 import { cloneDeep } from 'lodash';
-import CollisionDetector from '../../collision_detector';
+import CollisionHandler from '../../collision_handler';
 import ActionsArray from '../observable_actions_array';
+import store from '../../../store';
 
 class KeyActionsHandler {
-    constructor(store) {
-        this.store = store;
+    constructor() {
         this.actionsArray = new ActionsArray([]);
-        this.collisionDetector = new CollisionDetector(store);
+        this.collisionHandler = new CollisionHandler();
+        this.actionsArray.addEventListener('itemadded', () => this.handleHardDrop());
         this.actionsArray.addEventListener('itemadded', () => this.handleActions());
     }
 
@@ -18,16 +19,24 @@ class KeyActionsHandler {
         this.actionsArray.clear();
     }
 
+    handleHardDrop() {
+        if (this.actionsArray.includesActionByKey(config.KEYS.HARD_DROP)) {
+            let { currentTetromino } = store.getState();
+            store.dispatch(mergeTetromino(this.collisionHandler.hardDrop(currentTetromino)));
+            store.dispatch(setCurrentTetromino({ ...currentTetromino, y: 0, x: 3 }));
+        }
+    }
+
     handleMoving() {
         let offset = {
             x: 0,
             y: 0
         }
-        let { currentTetromino } = this.store.getState();
+        let { currentTetromino } = store.getState();
         this.actionsArray.forEach(element => {
             switch (element.keyCode) {
                 case config.KEYS.DOWN: {
-                    if (this.collisionDetector.isCollides(
+                    if (this.collisionHandler.isCollides(
                         currentTetromino,
                         {
                             x: offset.x,
@@ -39,7 +48,7 @@ class KeyActionsHandler {
                     break;
                 }
                 case config.KEYS.LEFT: {
-                    if (this.collisionDetector.isCollides(
+                    if (this.collisionHandler.isCollides(
                         currentTetromino,
                         {
                             x: offset.x - 1,
@@ -50,7 +59,7 @@ class KeyActionsHandler {
                     break;
                 }
                 case config.KEYS.RIGHT: {
-                    if (this.collisionDetector.isCollides(
+                    if (this.collisionHandler.isCollides(
                         currentTetromino,
                         {
                             x: offset.x + 1,
@@ -65,7 +74,7 @@ class KeyActionsHandler {
                 }
             }
         });
-        this.store.dispatch(setCurrentTetromino({
+        store.dispatch(setCurrentTetromino({
             ...currentTetromino,
             x: currentTetromino.x + offset.x,
             y: currentTetromino.y + offset.y
@@ -73,7 +82,7 @@ class KeyActionsHandler {
     }
 
     handleRotation() {
-        let { currentTetromino } = this.store.getState();
+        let { currentTetromino } = store.getState();
         let safeCurrentTetromino = cloneDeep(currentTetromino);
         this.actionsArray.forEach(action => {
             if (action.keyCode === config.KEYS.ROTATE) {
@@ -85,7 +94,7 @@ class KeyActionsHandler {
                     }
                 }
                 safeCurrentTetromino.shape.forEach(row => row.reverse());
-                let replacedTetromino = this.collisionDetector.getAvaliableClosePosition(safeCurrentTetromino);
+                let replacedTetromino = this.collisionHandler.getAvaliableClosePosition(safeCurrentTetromino);
                 if (replacedTetromino) {
                     safeCurrentTetromino = { ...safeCurrentTetromino, x: replacedTetromino.x, y: replacedTetromino.y };
                 } else {
@@ -93,7 +102,7 @@ class KeyActionsHandler {
                 }
             }
         })
-        this.store.dispatch(setCurrentTetromino(safeCurrentTetromino));
+        store.dispatch(setCurrentTetromino(safeCurrentTetromino));
     }
 }
 

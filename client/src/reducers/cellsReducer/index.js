@@ -1,4 +1,5 @@
 import { CONSTANTS } from '../../actions';
+import { cloneDeep } from 'lodash';
 import { clone } from 'lodash';
 import config from '../../config';
 
@@ -38,6 +39,16 @@ const cellsReducer = (state = initialState, action) => {
                 resultCells.unshift(Array(config.COLS).fill(0));
             }
             return resultCells;
+        }
+        case CONSTANTS.MERGE_TETROMINO: {
+            let { tetromino } = action.payload;
+            let workCells = cloneDeep(state);
+            tetromino.shape.forEach((tetroRow, tetroRowIndex) => tetroRow.forEach((tetroCell, tetroColIndex) => {
+                if (tetroCell) {
+                    workCells[tetroRowIndex + tetromino.y][tetroColIndex + tetromino.x] = 5;
+                }
+            }));
+            return workCells;
         }
         default: {
             return state;
