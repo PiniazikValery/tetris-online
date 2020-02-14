@@ -3,12 +3,12 @@ import config from '../../../config';
 import { cloneDeep } from 'lodash';
 import CollisionHandler from '../../collision_handler';
 import ActionsArray from '../observable_actions_array';
+import store from '../../../store';
 
 class KeyActionsHandler {
-    constructor(store) {
-        this.store = store;
+    constructor() {
         this.actionsArray = new ActionsArray([]);
-        this.collisionHandler = new CollisionHandler(store);
+        this.collisionHandler = new CollisionHandler();
         this.actionsArray.addEventListener('itemadded', () => this.handleHardDrop());
         this.actionsArray.addEventListener('itemadded', () => this.handleActions());
     }
@@ -21,9 +21,9 @@ class KeyActionsHandler {
 
     handleHardDrop() {
         if (this.actionsArray.includesActionByKey(config.KEYS.HARD_DROP)) {
-            let { currentTetromino } = this.store.getState();
-            this.store.dispatch(mergeTetromino(this.collisionHandler.hardDrop(currentTetromino)));
-            this.store.dispatch(setCurrentTetromino({ ...currentTetromino, y: 0, x: 3 }));
+            let { currentTetromino } = store.getState();
+            store.dispatch(mergeTetromino(this.collisionHandler.hardDrop(currentTetromino)));
+            store.dispatch(setCurrentTetromino({ ...currentTetromino, y: 0, x: 3 }));
         }
     }
 
@@ -32,7 +32,7 @@ class KeyActionsHandler {
             x: 0,
             y: 0
         }
-        let { currentTetromino } = this.store.getState();
+        let { currentTetromino } = store.getState();
         this.actionsArray.forEach(element => {
             switch (element.keyCode) {
                 case config.KEYS.DOWN: {
@@ -74,7 +74,7 @@ class KeyActionsHandler {
                 }
             }
         });
-        this.store.dispatch(setCurrentTetromino({
+        store.dispatch(setCurrentTetromino({
             ...currentTetromino,
             x: currentTetromino.x + offset.x,
             y: currentTetromino.y + offset.y
@@ -82,7 +82,7 @@ class KeyActionsHandler {
     }
 
     handleRotation() {
-        let { currentTetromino } = this.store.getState();
+        let { currentTetromino } = store.getState();
         let safeCurrentTetromino = cloneDeep(currentTetromino);
         this.actionsArray.forEach(action => {
             if (action.keyCode === config.KEYS.ROTATE) {
@@ -102,7 +102,7 @@ class KeyActionsHandler {
                 }
             }
         })
-        this.store.dispatch(setCurrentTetromino(safeCurrentTetromino));
+        store.dispatch(setCurrentTetromino(safeCurrentTetromino));
     }
 }
 

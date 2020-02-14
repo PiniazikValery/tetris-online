@@ -5,11 +5,6 @@ import { Provider } from 'react-redux';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import KeysHandler from './game_engine/keys_handler';
-import GameLoop from './game_engine/game_loop';
-
-(new KeysHandler(store)).startKeysListening();
-(new GameLoop(store)).start();
 
 ReactDOM.render(
     <Provider store={store}>

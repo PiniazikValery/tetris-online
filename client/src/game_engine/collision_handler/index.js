@@ -1,14 +1,11 @@
 import { cloneDeep } from 'lodash';
 import { changeGameLoopActivationStatus } from '../../actions';
+import store from '../../store';
 import config from '../../config';
 
 class CollisionHandler {
-    constructor(store) {
-        this.store = store;
-    }
-
     isCollides(tetromino, offset = { x: 0, y: 0 }) {
-        let { cells } = this.store.getState();
+        let { cells } = store.getState();
         let safeCurrTetromino = cloneDeep(tetromino);
         let safeCells = cloneDeep(cells);
         safeCurrTetromino.x = safeCurrTetromino.x + offset.x;
@@ -57,8 +54,8 @@ class CollisionHandler {
             workTetromino.y++;
         }
         workTetromino.y--;
-        this.store.dispatch(changeGameLoopActivationStatus());
-        setTimeout(() => this.store.dispatch(changeGameLoopActivationStatus()), 1000);
+        store.dispatch(changeGameLoopActivationStatus());
+        setTimeout(() => store.dispatch(changeGameLoopActivationStatus()), 1000);
         return workTetromino;
     }
 }
