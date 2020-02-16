@@ -1,4 +1,4 @@
-import { changeGameVerifierActivationStatus, setCurrentTetromino, mergeTetromino } from '../../actions';
+import { changeGameVerifierActivationStatus, setCurrentTetromino, mergeTetromino, clearRows } from '../../actions';
 import CollisionHandler from '../collision_handler';
 import store from '../../store';
 
@@ -7,7 +7,7 @@ class GameVerifier {
         this.collisionHandler = new CollisionHandler();
     }
 
-    verify() {
+    verifyTetrominoCollideCells() {
         let { currentTetromino } = store.getState();
         if (!this.collisionHandler.isCollides(
             currentTetromino,
@@ -34,6 +34,15 @@ class GameVerifier {
                 store.dispatch(changeGameVerifierActivationStatus());
             }, 1000, currentTetromino.y);
         }
+    }
+
+    verifyLineClear() {
+        let { cells } = store.getState();
+        cells.forEach((row, y) => {
+            if (row.every(value => value > 0)) {
+                store.dispatch(clearRows(y, 1));
+            }
+        });
     }
 }
 
