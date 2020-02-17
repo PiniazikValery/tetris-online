@@ -1,9 +1,9 @@
-import { setCurrentTetromino, mergeTetromino } from '../../../actions';
-import config from '../../../config';
+import { setCurrentTetromino, mergeTetromino } from '../../actions';
+import config from '../../config';
 import { cloneDeep } from 'lodash';
-import CollisionHandler from '../../collision_handler';
+import CollisionHandler from '../collision_handler';
 import ActionsArray from '../observable_actions_array';
-import store from '../../../store';
+import store from '../../store';
 
 class KeyActionsHandler {
     constructor() {
