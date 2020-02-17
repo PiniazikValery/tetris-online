@@ -1,4 +1,4 @@
-import { setCurrentTetromino, mergeTetromino } from '../../actions';
+import { setCurrentTetromino, refreshTetromino, mergeTetromino } from '../../actions';
 import config from '../../config';
 import { cloneDeep } from 'lodash';
 import CollisionHandler from '../collision_handler';
@@ -23,7 +23,7 @@ class KeyActionsHandler {
         if (this.actionsArray.includesActionByKey(config.KEYS.HARD_DROP)) {
             let { currentTetromino } = store.getState();
             store.dispatch(mergeTetromino(this.collisionHandler.hardDrop(currentTetromino)));
-            store.dispatch(setCurrentTetromino({ ...currentTetromino, y: 0, x: 3 }));
+            store.dispatch(refreshTetromino());
         }
     }
 
