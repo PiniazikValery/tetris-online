@@ -19,7 +19,7 @@ class GameLoop {
             )) {
                 store.dispatch(setCurrentTetromino({ ...currentTetromino, y: currentTetromino.y + 1 }));
             }
-        }, 1000);
+        }, store.getState().game.speed);
     }
 
     stop() {

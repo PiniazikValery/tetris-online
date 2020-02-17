@@ -19,6 +19,7 @@ const Config = {
         HARD_DROP: 68
     },
     DROP_SPEED: 60,
+    GAME_SPEED: 1000,
     SHAPES: [
         [
             [0, 1, 0, 0],
