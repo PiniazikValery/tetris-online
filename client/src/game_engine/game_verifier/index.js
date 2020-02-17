@@ -1,4 +1,4 @@
-import { changeGameVerifierActivationStatus, setCurrentTetromino, mergeTetromino, clearRows, clearCells } from '../../actions';
+import { changeGameVerifierActivationStatus, refreshTetromino, mergeTetromino, clearRows, clearCells } from '../../actions';
 import CollisionHandler from '../collision_handler';
 import store from '../../store';
 
@@ -28,7 +28,7 @@ class GameVerifier {
                         }
                     )) {
                         store.dispatch(mergeTetromino(this.collisionHandler.hardDrop(currentTetromino)));
-                        store.dispatch(setCurrentTetromino({ ...currentTetromino, y: 0, x: 3 }));
+                        store.dispatch(refreshTetromino());
                     }
                 }
                 store.dispatch(changeGameVerifierActivationStatus());
