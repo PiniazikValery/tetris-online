@@ -1,4 +1,4 @@
-import { changeGameVerifierActivationStatus, setCurrentTetromino, mergeTetromino, clearRows } from '../../actions';
+import { changeGameVerifierActivationStatus, setCurrentTetromino, mergeTetromino, clearRows, clearCells } from '../../actions';
 import CollisionHandler from '../collision_handler';
 import store from '../../store';
 
@@ -43,6 +43,13 @@ class GameVerifier {
                 store.dispatch(clearRows(y, 1));
             }
         });
+    }
+
+    verifyGameOver() {
+        let { currentTetromino } = store.getState();
+        if (!this.collisionHandler.isCollides(currentTetromino) && currentTetromino.y === 0) {
+            store.dispatch(clearCells());
+        }
     }
 }
 

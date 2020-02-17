@@ -23,12 +23,13 @@ const GameEngine = ({ gameLoopActivated, currentTetromino, gameVerifierActivated
 
     useEffect(() => {
         if (gameVerifierActivated) {
-            gameVerifier.current.verifyTetrominoCollideCells()
+            gameVerifier.current.verifyTetrominoCollideCells();
+            gameVerifier.current.verifyGameOver();
         }
     }, [currentTetromino, gameVerifierActivated])
 
     useEffect(() => {
-        gameVerifier.current.verifyLineClear()
+        gameVerifier.current.verifyLineClear();
 
     }, [cells])
 
