@@ -20,7 +20,7 @@ class GameVerifier {
             clearTimeout(this.settingTimeout);
             this.settingTimeout = setTimeout((y) => {
                 let { currentTetromino } = store.getState();
-                if (currentTetromino.y === y) {
+                if (currentTetromino.y >= y) {
                     if (!this.collisionHandler.isCollides(
                         currentTetromino,
                         {
