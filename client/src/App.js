@@ -1,13 +1,12 @@
 import React from 'react';
-import GameScene from './components/game_scene';
-import GameEngine from './components/game_engine';
+import { BrowserRouter as Router } from 'react-router-dom';
+import Routes from './routes';
 
 function App() {
   return (
-    <React.Fragment>
-      <GameEngine />
-      <GameScene />
-    </React.Fragment>
+    <Router>
+      <Routes />
+    </Router>
   );
 }
 

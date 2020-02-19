@@ -9,8 +9,8 @@ class KeyActionsHandler {
     constructor() {
         this.actionsArray = new ActionsArray([]);
         this.collisionHandler = new CollisionHandler();
-        this.actionsArray.addEventListener('itemadded', () => this.handleHardDrop());
-        this.actionsArray.addEventListener('itemadded', () => this.handleActions());
+        this.handleHardDrop = this.handleHardDrop.bind(this);
+        this.handleActions = this.handleActions.bind(this);
     }
 
     handleActions() {

@@ -44,7 +44,6 @@ class GameVerifier {
                 store.dispatch(clearRows(y, 1));
                 store.dispatch(increaseSpeed());
                 store.dispatch(increaseScore());
-                console.log(store.getState().game.score);
             }
         });
     }
