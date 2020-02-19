@@ -10,7 +10,13 @@ const GameEngine = ({ gameLoopActivated, currentTetromino, gameVerifierActivated
     const keysHandler = useRef(new KeysHandler());
 
     useEffect(() => {
-        keysHandler.current.startKeysListening();
+        let gameLoopCopy = gameLoop;
+        let keysHandlerCopy = keysHandler;
+        keysHandlerCopy.current.startKeysListening();
+        return function turnOffEngine() {
+            gameLoopCopy.current.stop();
+            keysHandlerCopy.current.stopKeysListening();
+        }
     }, []);
 
     useEffect(() => {
