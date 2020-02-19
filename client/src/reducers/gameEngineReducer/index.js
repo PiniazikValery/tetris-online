@@ -8,10 +8,10 @@ const initialState = {
 const gameEngineReducer = (state = initialState, action) => {
     switch (action.type) {
         case CONSTANTS.CHANGE_GAME_LOOP_ACTIVATION_STATUS: {
-            return { ...state, gameLoopActivated: !state.gameLoopActivated };
+            return { ...state, gameLoopActivated: action.payload.value };
         }
         case CONSTANTS.CHANGE_GAME_VERIFIER_ACTIVATION_STATUS: {
-            return { ...state, gameVerifierActivated: !state.gameVerifierActivated };
+            return { ...state, gameVerifierActivated: action.payload.value };
         }
         default: {
             return state;
