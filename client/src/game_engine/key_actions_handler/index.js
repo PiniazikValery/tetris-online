@@ -1,4 +1,4 @@
-import { setCurrentTetromino, refreshTetromino, mergeTetromino } from '../../actions';
+import { setCurrentTetromino, refreshTetromino, mergeTetromino, removeFirstRow } from '../../actions';
 import config from '../../config';
 import { cloneDeep } from 'lodash';
 import CollisionHandler from '../collision_handler';
@@ -9,13 +9,14 @@ class KeyActionsHandler {
     constructor() {
         this.actionsArray = new ActionsArray([]);
         this.collisionHandler = new CollisionHandler();
-        this.handleHardDrop = this.handleHardDrop.bind(this);
         this.handleActions = this.handleActions.bind(this);
     }
 
     handleActions() {
+        this.handleHardDrop();
         this.handleMoving();
         this.handleRotation();
+        this.handleSkillsUse();
         this.actionsArray.clear();
     }
 
@@ -103,6 +104,22 @@ class KeyActionsHandler {
             }
         })
         store.dispatch(setCurrentTetromino(safeCurrentTetromino));
+    }
+
+    handleSkillsUse() {
+        let skillsArray = [];
+        this.actionsArray.forEach(element => {
+            switch (element.keyCode) {
+                case config.DEFENSIVE_SKILLS.REMOVE_FIRST_ROW.key: {
+                    skillsArray.push(removeFirstRow());
+                    break;
+                }
+                default: {
+                    break;
+                }
+            }
+        });
+        skillsArray.forEach(skill => store.dispatch(skill));
     }
 }
 

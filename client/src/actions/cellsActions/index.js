@@ -22,3 +22,7 @@ export const mergeTetromino = tetromino => ({
 export const addTrashRow = () => ({
     type: CONSTANTS.ADD_TRASH_ROW
 });
+
+export const removeFirstRow = () => ({
+    type: CONSTANTS.REMOVE_FIRST_ROW
+});

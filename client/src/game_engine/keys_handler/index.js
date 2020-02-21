@@ -37,14 +37,12 @@ class KeysHandler extends KeyActionsHandler {
         this.stopKeysListening();
         document.addEventListener('keydown', this.onKeyDownAction);
         document.addEventListener('keyup', this.onKeyUpAction);
-        this.actionsArray.addEventListener('itemadded', this.handleHardDrop);
         this.actionsArray.addEventListener('itemadded', this.handleActions);
     }
 
     stopKeysListening() {
         document.removeEventListener('keydown', this.onKeyDownAction);
         document.removeEventListener('keyup', this.onKeyUpAction);
-        this.actionsArray.removeEventListener('itemadded', this.handleHardDrop);
         this.actionsArray.removeEventListener('itemadded', this.handleActions);
     }
 }

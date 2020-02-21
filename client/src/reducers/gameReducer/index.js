@@ -5,7 +5,7 @@ const initialState = {
     score: 0,
     speed: config.GAME_SPEED,
     power: 0,
-    isGameOver: false
+    isGameOver: true
 }
 
 const gameReducer = (state = initialState, action) => {
@@ -31,6 +31,9 @@ const gameReducer = (state = initialState, action) => {
         }
         case CONSTANTS.SET_GAME_OVER: {
             return { ...state, isGameOver: action.payload.value };
+        }
+        case CONSTANTS.RESET_POWER: {
+            return { ...state, power: 0 };
         }
         default: {
             return state;

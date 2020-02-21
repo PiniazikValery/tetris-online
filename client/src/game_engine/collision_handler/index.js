@@ -56,8 +56,7 @@ class CollisionHandler {
         workTetromino.y--;
         store.dispatch(changeGameLoopActivationStatus(false));
         setTimeout(() => {
-            if (!store.getState().game.isGameOver)
-                store.dispatch(changeGameLoopActivationStatus(true));
+            store.dispatch(changeGameLoopActivationStatus(true));
         }, 1000);
         return workTetromino;
     }

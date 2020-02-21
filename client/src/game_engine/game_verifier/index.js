@@ -1,4 +1,4 @@
-import { changeGameVerifierActivationStatus, refreshTetromino, setGameOver, mergeTetromino, clearRows, increaseSpeed, increaseScore } from '../../actions';
+import { changeGameVerifierActivationStatus, refreshTetromino, setGameOver, mergeTetromino, clearRows, increaseSpeed, increaseScore, increasePower } from '../../actions';
 import CollisionHandler from '../collision_handler';
 import store from '../../store';
 
@@ -30,12 +30,10 @@ class GameVerifier {
                         }
                     )) {
                         store.dispatch(mergeTetromino(this.collisionHandler.hardDrop(currentTetromino)));
-                        if (!store.getState().game.isGameOver)
-                            store.dispatch(refreshTetromino());
+                        store.dispatch(refreshTetromino());
                     }
                 }
-                if (!store.getState().game.isGameOver)
-                    store.dispatch(changeGameVerifierActivationStatus(true));
+                store.dispatch(changeGameVerifierActivationStatus(true));
             }, 1000, currentTetromino.y);
 
         }
@@ -48,6 +46,7 @@ class GameVerifier {
                 store.dispatch(clearRows(y, 1));
                 store.dispatch(increaseSpeed());
                 store.dispatch(increaseScore());
+                store.dispatch(increasePower());
             }
         });
     }

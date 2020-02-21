@@ -22,18 +22,18 @@ const GameEngine = ({ gameLoopActivated, currentTetromino, gameVerifierActivated
     }, []);
 
     useEffect(() => {
-        if (gameLoopActivated) {
+        if (gameLoopActivated && !isGameOver) {
             gameLoop.current.start();
         } else {
             gameLoop.current.stop();
         }
-    }, [gameLoopActivated])
+    }, [gameLoopActivated, isGameOver])
 
     useEffect(() => {
-        if (gameVerifierActivated) {
+        if (gameVerifierActivated && !isGameOver) {
             gameVerifier.current.verifyTetrominoCollideCells();
         }
-    }, [currentTetromino, gameVerifierActivated])
+    }, [currentTetromino, gameVerifierActivated, isGameOver])
 
     useEffect(() => {
         gameVerifier.current.verifyLineClear();
@@ -42,14 +42,8 @@ const GameEngine = ({ gameLoopActivated, currentTetromino, gameVerifierActivated
 
     useEffect(() => {
         if (isGameOver) {
-            console.log('game over');
-            changeGameLoopActivationStatus(false);
-            changeGameVerifierActivationStatus(false);
             keysHandler.current.stopKeysListening();
         } else {
-            console.log('game start')
-            changeGameLoopActivationStatus(true);
-            changeGameVerifierActivationStatus(true);
             keysHandler.current.startKeysListening();
         }
     }, [isGameOver, changeGameLoopActivationStatus, changeGameVerifierActivationStatus])

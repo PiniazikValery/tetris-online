@@ -40,6 +40,14 @@ const cellsReducer = (state = initialState, action) => {
             }
             return resultCells;
         }
+        case CONSTANTS.REMOVE_FIRST_ROW: {
+            let resultCells = clone(state);
+            resultCells.splice(state.length - 1, 1);
+            for (let i = 0; i < 1; i++) {
+                resultCells.unshift(Array(config.COLS).fill(0));
+            }
+            return resultCells;
+        }
         case CONSTANTS.MERGE_TETROMINO: {
             let { tetromino } = action.payload;
             let workCells = cloneDeep(state);

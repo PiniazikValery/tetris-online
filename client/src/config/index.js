@@ -61,7 +61,13 @@ const Config = {
             [0, 1, 0, 0],
             [0, 0, 0, 0]
         ]
-    ]
+    ],
+    DEFENSIVE_SKILLS: {
+        REMOVE_FIRST_ROW: {
+            key: 49,
+            cost: 200
+        }
+    }
 }
 
 Object.freeze(Config);
