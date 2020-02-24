@@ -1,34 +1,11 @@
-import { CONSTANTS } from '../index'
-
-export const increaseScore = () => ({
-    type: CONSTANTS.INCREASE_SCORE
-});
+import { CONSTANTS } from '../index';
 
 export const increaseSpeed = () => ({
     type: CONSTANTS.INCREASE_SPEED
 });
 
-export const resetScore = () => ({
-    type: CONSTANTS.RESET_SCORE
-});
-
 export const resetSpeed = () => ({
     type: CONSTANTS.RESET_SPEED
-});
-
-export const increasePower = () => ({
-    type: CONSTANTS.INCREASE_POWER
-});
-
-export const decreasePower = amount => ({
-    type: CONSTANTS.DECREASE_POWER,
-    payload: {
-        amount
-    }
-});
-
-export const resetPower = () => ({
-    type: CONSTANTS.RESET_POWER
 });
 
 export const setGameOver = value => ({

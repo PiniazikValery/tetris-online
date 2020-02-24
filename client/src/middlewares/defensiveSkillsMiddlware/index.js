@@ -2,7 +2,7 @@ import { CONSTANTS, decreasePower } from '../../actions';
 import config from '../../config';
 
 const defensiveSkillsMiddleware = store => next => action => {
-    let { power } = store.getState().game;
+    let { power } = store.getState().player;
     switch (action.type) {
         case CONSTANTS.REMOVE_FIRST_ROW: {
             if (power >= config.DEFENSIVE_SKILLS.REMOVE_FIRST_ROW.cost) {

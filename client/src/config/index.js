@@ -67,7 +67,8 @@ const Config = {
             key: 49,
             cost: 200
         }
-    }
+    },
+    SERVER_URL: "http://localhost:5000"
 }
 
 Object.freeze(Config);

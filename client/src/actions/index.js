@@ -2,6 +2,7 @@ export * from './cellsActions';
 export * from './currentTetrominoActions';
 export * from './gameEngineActions';
 export * from './gameActions';
+export * from './playerActions';
 
 export const CONSTANTS = {
     CLEAR_CELLS: 'CLEAR_CELLS',
@@ -20,5 +21,6 @@ export const CONSTANTS = {
     RESET_SPEED: 'RESET_SPEED',
     INCREASE_POWER: 'INCREASE_POWER',
     DECREASE_POWER: 'DECREASE_POWER',
-    RESET_POWER: 'RESET_POWER'
+    RESET_POWER: 'RESET_POWER',
+    CONNECT_PLAYER_TO_SERVER: 'CONNECT_PLAYER_TO_SERVER'
 }
