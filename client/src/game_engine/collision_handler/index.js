@@ -55,7 +55,8 @@ class CollisionHandler {
         }
         workTetromino.y--;
         store.dispatch(changeGameLoopActivationStatus(false));
-        setTimeout(() => {
+        clearTimeout(this.hardDropTimeout);
+        this.hardDropTimeout = setTimeout(() => {
             store.dispatch(changeGameLoopActivationStatus(true));
         }, 1000);
         return workTetromino;
