@@ -1,10 +1,12 @@
 import { useRef, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import GameLoop from '../../game_engine/game_loop';
 import GameVerifier from '../../game_engine/game_verifier';
 import KeysHandler from '../../game_engine/keys_handler';
+import { changeGameLoopActivationStatus, changeGameVerifierActivationStatus } from '../../actions';
 
-const GameEngine = ({ gameLoopActivated, currentTetromino, gameVerifierActivated, cells }) => {
+const GameEngine = ({ gameLoopActivated, currentTetromino, gameVerifierActivated, cells, isGameOver, changeGameVerifierActivationStatus, changeGameLoopActivationStatus }) => {
     const gameVerifier = useRef(new GameVerifier());
     const gameLoop = useRef(new GameLoop());
     const keysHandler = useRef(new KeysHandler());
@@ -20,23 +22,31 @@ const GameEngine = ({ gameLoopActivated, currentTetromino, gameVerifierActivated
     }, []);
 
     useEffect(() => {
-        if (gameLoopActivated) {
+        if (gameLoopActivated && !isGameOver) {
             gameLoop.current.start();
         } else {
             gameLoop.current.stop();
         }
-    }, [gameLoopActivated])
+    }, [gameLoopActivated, isGameOver])
 
     useEffect(() => {
-        if (gameVerifierActivated) {
+        if (gameVerifierActivated && !isGameOver) {
             gameVerifier.current.verifyTetrominoCollideCells();
         }
-    }, [currentTetromino, gameVerifierActivated])
+    }, [currentTetromino, gameVerifierActivated, isGameOver])
 
     useEffect(() => {
         gameVerifier.current.verifyLineClear();
-        gameVerifier.current.verifyGameOver();
+        gameVerifier.current.verifyRefreshedTetrominoIsSuitable();
     }, [cells])
+
+    useEffect(() => {
+        if (isGameOver) {
+            keysHandler.current.stopKeysListening();
+        } else {
+            keysHandler.current.startKeysListening();
+        }
+    }, [isGameOver, changeGameLoopActivationStatus, changeGameVerifierActivationStatus])
 
     return (null);
 }
@@ -45,7 +55,14 @@ const mapStateToProps = state => ({
     gameLoopActivated: state.gameEngine.gameLoopActivated,
     gameVerifierActivated: state.gameEngine.gameVerifierActivated,
     currentTetromino: state.currentTetromino,
-    cells: state.cells
+    cells: state.cells,
+    isGameOver: state.game.isGameOver
 });
 
-export default connect(mapStateToProps)(GameEngine);
+const mapDispatchToProps = dispatch => ({
+    changeGameLoopActivationStatus: bindActionCreators(changeGameLoopActivationStatus, dispatch),
+    changeGameVerifierActivationStatus: bindActionCreators(changeGameVerifierActivationStatus, dispatch),
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(GameEngine);

@@ -8,6 +8,7 @@ class GameLoop {
     }
 
     start() {
+        clearInterval(this.loop);
         this.loop = setInterval(() => {
             let { currentTetromino } = store.getState();
             if (this.collisionHandler.isCollides(
