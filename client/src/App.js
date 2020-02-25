@@ -5,9 +5,17 @@ import { bindActionCreators } from 'redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Routes from './routes';
 
-function App({ connectPlayerToServer }) {
+function App({ connectPlayerToServer, socket }) {
 
-  useEffect(() => connectPlayerToServer(), [connectPlayerToServer]);
+  useEffect(() => {
+    connectPlayerToServer();
+  }, [connectPlayerToServer]);
+  useEffect(() => {
+    if (socket) {
+      socket.emit('startPlayerSearch');
+      socket.on('setOpponent', opponentId => console.log(opponentId));
+    }
+  }, [socket]);
 
   return (
     <Router>
@@ -20,4 +28,8 @@ const mapDispatchToProps = dispatch => ({
   connectPlayerToServer: bindActionCreators(connectPlayerToServer, dispatch),
 });
 
-export default connect(undefined, mapDispatchToProps)(App);
+const mapStateToProps = state => ({
+  socket: state.player.socket
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
