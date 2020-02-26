@@ -1,10 +1,9 @@
-const { setUpPlayerSelection, removeWaitingPlayer } = require('./players_selection');
+const { setUpPlayerSelection } = require('./players_selection');
 const { setUpPlayersCommunication } = require('./players_communication');
+const { handleDisconnect } = require('./disconnect_handler');
 
 module.exports.setUpApi = function (socket, io) {
     setUpPlayerSelection(socket, io);
     setUpPlayersCommunication(socket, io);
-    socket.on('disconnect', () => {
-        removeWaitingPlayer(socket);
-    });
+    handleDisconnect(socket, io);
 }
