@@ -11,10 +11,7 @@ const initialState = {
 const playerReducer = (state = initialState, action) => {
     switch (action.type) {
         case CONSTANTS.CONNECT_PLAYER_TO_SERVER: {
-            if (!state.socket) {
-                return { ...state, socket: io(config.SERVER_URL) }
-            }
-            break;
+            return { ...state, socket: io(config.SERVER_URL) }
         }
         case CONSTANTS.INCREASE_SCORE: {
             return { ...state, score: ++state.score };
