@@ -1,7 +1,8 @@
 import { createStore, applyMiddleware } from 'redux';
 import rootReducer from '../reducers';
-import { cellsMiddleware, defensiveSkillsMiddleware } from '../middlewares';
+import thunk from 'redux-thunk';
+import { loseMiddleware, defensiveSkillsMiddleware } from '../middlewares';
 
-const store = createStore(rootReducer, applyMiddleware(cellsMiddleware, defensiveSkillsMiddleware));
+const store = createStore(rootReducer, applyMiddleware(loseMiddleware, defensiveSkillsMiddleware, thunk));
 
 export default store;

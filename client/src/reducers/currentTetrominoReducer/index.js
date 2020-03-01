@@ -1,8 +1,10 @@
 import { CONSTANTS } from '../../actions';
 import { cloneDeep } from 'lodash';
 import config from '../../config';
+import { v4 as uuidv4 } from 'uuid';
 
 const initialState = {
+    id: uuidv4(),
     x: 3,
     y: 0,
     shape: (function () {
@@ -30,6 +32,7 @@ const currentTetrominoReducer = (state = initialState, action) => {
             result.nextRndShapes.shift();
             result.nextRndShapes.pop();
             result.nextRndShapes.push(config.SHAPES[Math.floor(Math.random() * config.SHAPES.length)]);
+            result.id = uuidv4();
             return result;
         }
         default: {

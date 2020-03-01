@@ -1,17 +1,13 @@
-import CollisionHandler from '../collision_handler';
+import { isCollides } from '../collision_handler';
 import { setCurrentTetromino } from '../../actions';
 import store from '../../store';
 
 class GameLoop {
-    constructor() {
-        this.collisionHandler = new CollisionHandler();
-    }
-
     start() {
         clearInterval(this.loop);
         this.loop = setInterval(() => {
             let { currentTetromino } = store.getState();
-            if (this.collisionHandler.isCollides(
+            if (isCollides(
                 currentTetromino,
                 {
                     x: 0,
