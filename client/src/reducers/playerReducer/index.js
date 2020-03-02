@@ -34,7 +34,7 @@ const playerReducer = (state = initialState, action) => {
             return { ...state, power: 0 };
         }
         case CONSTANTS.SET_PLAYER_WIN: {
-            let winValue = action.payload;
+            let { winValue } = action.payload;
             return { ...state, win: winValue };
         }
         case CONSTANTS.SET_PLAYER_IN_SEARCH: {

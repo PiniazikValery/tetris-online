@@ -1,14 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { bindActionCreators } from 'redux';
 import { clearCells, refreshTetromino, resetScore, resetSpeed, setGameOver, resetPower } from '../../actions';
 import { connect } from 'react-redux';
 import { AreasHolder } from './styles';
+import GameOverPopup from '../game_over_popup';
 import Board from '../board';
 
-const GameScene = ({ clearCells, refreshTetromino, resetScore, resetSpeed, setGameOver, resetPower }) => {
+const GameScene = ({ clearCells, refreshTetromino, resetScore, resetSpeed, setGameOver, resetPower, isGameOver }) => {
+    const [gameStarts, setGameStarting] = useState(true);
+
     useEffect(() => {
-        setTimeout(() => setGameOver(false), 3000)
+        let beforePlayTimeout = setTimeout(() => {
+            setGameOver(false);
+            setGameStarting(false);
+        }, 3000)
         return function cleanUpScene() {
+            clearTimeout(beforePlayTimeout);
             clearCells();
             refreshTetromino();
             resetScore();
@@ -20,6 +27,7 @@ const GameScene = ({ clearCells, refreshTetromino, resetScore, resetSpeed, setGa
     return (
         <AreasHolder>
             <Board />
+            {!gameStarts && isGameOver && <GameOverPopup />}
         </AreasHolder>
     );
 };
@@ -33,4 +41,8 @@ const mapDispatchToProps = dispatch => ({
     resetPower: bindActionCreators(resetPower, dispatch)
 });
 
-export default connect(undefined, mapDispatchToProps)(GameScene);
+const mapStateToProps = state => ({
+    isGameOver: state.game.isGameOver
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(GameScene);
