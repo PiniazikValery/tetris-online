@@ -21,7 +21,6 @@ export const Loader = styled.div`
    ${afterAndLoaderStyles}
     margin: 35vh auto;
     font-size: 10px;
-    position: absolute;
     text-indent: -9999em;
     border-top: 1.1em solid rgba(0, 0, 0);
     border-right: 1.1em solid rgba(0, 0, 0);
@@ -37,11 +36,10 @@ export const Loader = styled.div`
 `
 
 export const CenterWrapper = styled.div`
-    height: 100%;
-    width: 100%;
-    position: relative;
-    &:first-child{
-        top: 40%;
-        left: 45%;
-    }
+    height:100vh;
+    width:100wh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
 `
