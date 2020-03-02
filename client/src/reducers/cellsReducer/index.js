@@ -53,7 +53,9 @@ const cellsReducer = (state = initialState, action) => {
             let workCells = cloneDeep(state);
             tetromino.shape.forEach((tetroRow, tetroRowIndex) => tetroRow.forEach((tetroCell, tetroColIndex) => {
                 if (tetroCell) {
-                    workCells[tetroRowIndex + tetromino.y][tetroColIndex + tetromino.x] = 5;
+                    try {
+                        workCells[tetroRowIndex + tetromino.y][tetroColIndex + tetromino.x] = 5;
+                    } catch { }
                 }
             }));
             return workCells;

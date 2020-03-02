@@ -12,12 +12,19 @@ export const clearRows = (startIndex, count) => ({
     }
 });
 
-export const mergeTetromino = tetromino => ({
-    type: CONSTANTS.MERGE_TETROMINO,
-    payload: {
-        tetromino
+export const mergeTetromino = tetromino => {
+    return (dispatch, getState) => {
+        let { game } = getState();
+        if (!game.isGameOver) {
+            dispatch({
+                type: CONSTANTS.MERGE_TETROMINO,
+                payload: {
+                    tetromino
+                }
+            });
+        }
     }
-});
+};
 
 export const addTrashRow = () => ({
     type: CONSTANTS.ADD_TRASH_ROW

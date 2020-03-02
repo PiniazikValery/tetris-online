@@ -1,17 +1,21 @@
 import { CONSTANTS } from '../../actions';
-import config from '../../config';
-import io from "socket.io-client";
 
 const initialState = {
     socket: undefined,
     score: 0,
     power: 0,
+    win: undefined,
+    inSearch: true
 }
 
 const playerReducer = (state = initialState, action) => {
     switch (action.type) {
         case CONSTANTS.CONNECT_PLAYER_TO_SERVER: {
-            return { ...state, socket: io(config.SERVER_URL) }
+            const { socket } = action.payload;
+            return { ...state, socket: socket }
+        }
+        case CONSTANTS.DISCONNECT_PLAYER_FROM_SERVER: {
+            return { ...state, socket: undefined };
         }
         case CONSTANTS.INCREASE_SCORE: {
             return { ...state, score: ++state.score };
@@ -28,6 +32,14 @@ const playerReducer = (state = initialState, action) => {
         }
         case CONSTANTS.RESET_POWER: {
             return { ...state, power: 0 };
+        }
+        case CONSTANTS.SET_PLAYER_WIN: {
+            let winValue = action.payload;
+            return { ...state, win: winValue };
+        }
+        case CONSTANTS.SET_PLAYER_IN_SEARCH: {
+            let { inSearch } = action.payload;
+            return { ...state, inSearch };
         }
         default: {
             return state;

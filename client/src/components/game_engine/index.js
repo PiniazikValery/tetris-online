@@ -37,7 +37,6 @@ const GameEngine = ({ gameLoopActivated, currentTetromino, gameVerifierActivated
 
     useEffect(() => {
         gameVerifier.current.verifyLineClear();
-        gameVerifier.current.verifyRefreshedTetrominoIsSuitable();
     }, [cells])
 
     useEffect(() => {

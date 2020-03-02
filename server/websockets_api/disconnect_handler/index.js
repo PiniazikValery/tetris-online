@@ -3,6 +3,6 @@ const { removeWaitingPlayer, removePlayingCouple } = require('../players_selecti
 module.exports.handleDisconnect = function (socket, io) {
     socket.on('disconnect', () => {
         removeWaitingPlayer(socket);
-        removePlayingCouple(socket, io);
+        removePlayingCouple(socket.id, io);
     });
 }

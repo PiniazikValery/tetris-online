@@ -19,7 +19,6 @@ const io = socketIo(server);
 
 io.on('connection', (socket) => {
     setUpApi(socket, io);
-    console.log(`a user connected, id: ${socket.id}`);
 });
 
 server.listen(port);

@@ -1,14 +1,13 @@
 import { setCurrentTetromino, refreshTetromino, mergeTetromino, removeFirstRow } from '../../actions';
 import config from '../../config';
 import { cloneDeep } from 'lodash';
-import CollisionHandler from '../collision_handler';
+import { isCollides, hardDrop, getAvaliableClosePosition } from '../collision_handler';
 import ActionsArray from '../observable_actions_array';
 import store from '../../store';
 
 class KeyActionsHandler {
     constructor() {
         this.actionsArray = new ActionsArray([]);
-        this.collisionHandler = new CollisionHandler();
         this.handleActions = this.handleActions.bind(this);
     }
 
@@ -23,7 +22,7 @@ class KeyActionsHandler {
     handleHardDrop() {
         if (this.actionsArray.includesActionByKey(config.KEYS.HARD_DROP)) {
             let { currentTetromino } = store.getState();
-            store.dispatch(mergeTetromino(this.collisionHandler.hardDrop(currentTetromino)));
+            store.dispatch(mergeTetromino(hardDrop(currentTetromino)));
             store.dispatch(refreshTetromino());
         }
     }
@@ -37,7 +36,7 @@ class KeyActionsHandler {
         this.actionsArray.forEach(element => {
             switch (element.keyCode) {
                 case config.KEYS.DOWN: {
-                    if (this.collisionHandler.isCollides(
+                    if (isCollides(
                         currentTetromino,
                         {
                             x: offset.x,
@@ -49,7 +48,7 @@ class KeyActionsHandler {
                     break;
                 }
                 case config.KEYS.LEFT: {
-                    if (this.collisionHandler.isCollides(
+                    if (isCollides(
                         currentTetromino,
                         {
                             x: offset.x - 1,
@@ -60,7 +59,7 @@ class KeyActionsHandler {
                     break;
                 }
                 case config.KEYS.RIGHT: {
-                    if (this.collisionHandler.isCollides(
+                    if (isCollides(
                         currentTetromino,
                         {
                             x: offset.x + 1,
@@ -95,7 +94,7 @@ class KeyActionsHandler {
                     }
                 }
                 safeCurrentTetromino.shape.forEach(row => row.reverse());
-                let replacedTetromino = this.collisionHandler.getAvaliableClosePosition(safeCurrentTetromino);
+                let replacedTetromino = getAvaliableClosePosition(safeCurrentTetromino);
                 if (replacedTetromino) {
                     safeCurrentTetromino = { ...safeCurrentTetromino, x: replacedTetromino.x, y: replacedTetromino.y };
                 } else {

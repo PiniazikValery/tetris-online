@@ -1,35 +1,32 @@
-import { changeGameVerifierActivationStatus, refreshTetromino, setGameOver, mergeTetromino, clearRows, increaseSpeed, increaseScore, increasePower } from '../../actions';
-import CollisionHandler from '../collision_handler';
+import { changeGameVerifierActivationStatus, refreshTetromino, mergeTetromino, clearRows, increaseSpeed, increaseScore, increasePower } from '../../actions';
+import { isCollides, hardDrop } from '../collision_handler';
 import store from '../../store';
 
 class GameVerifier {
-    constructor() {
-        this.collisionHandler = new CollisionHandler();
-    }
-
     verifyTetrominoCollideCells() {
         let { currentTetromino } = store.getState();
-        if (!this.collisionHandler.isCollides(
+        let currentId = currentTetromino.id;
+        if (!isCollides(
             currentTetromino,
             {
                 x: 0,
                 y: 1
             }
         )) {
-
-            store.dispatch(changeGameVerifierActivationStatus(false));
             clearTimeout(this.settingTimeout);
+            store.dispatch(changeGameVerifierActivationStatus(false));
             this.settingTimeout = setTimeout((y) => {
                 let { currentTetromino } = store.getState();
+                let { id } = currentTetromino;
                 if (currentTetromino.y >= y) {
-                    if (!this.collisionHandler.isCollides(
+                    if (!isCollides(
                         currentTetromino,
                         {
                             x: 0,
                             y: currentTetromino.shape.length / 2
                         }
-                    )) {
-                        store.dispatch(mergeTetromino(this.collisionHandler.hardDrop(currentTetromino)));
+                    ) && currentId === id) {
+                        store.dispatch(mergeTetromino(hardDrop(currentTetromino)));
                         store.dispatch(refreshTetromino());
                     }
                 }
@@ -49,13 +46,6 @@ class GameVerifier {
                 store.dispatch(increasePower());
             }
         });
-    }
-
-    verifyRefreshedTetrominoIsSuitable() {
-        let { currentTetromino } = store.getState();
-        if (!this.collisionHandler.isCollides(currentTetromino) && currentTetromino.y === 0) {
-            store.dispatch(setGameOver(true));
-        }
     }
 }
 

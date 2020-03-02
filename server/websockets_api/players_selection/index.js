@@ -10,7 +10,6 @@ function DistributePlayers(io) {
                 firstP: waitingPlayers[i],
                 secondP: waitingPlayers[i + 1]
             });
-            console.log(`user ${waitingPlayers[i].id} connected to ${waitingPlayers[i + 1].id}`)
         }
         waitingPlayers = waitingPlayers % 2 ? [waitingPlayers[waitingPlayers.length - 1]] : [];
     }
@@ -20,10 +19,10 @@ module.exports.removeWaitingPlayer = function (socket) {
     waitingPlayers = waitingPlayers.filter(item => item != socket);
 }
 
-module.exports.removePlayingCouple = function (socket, io) {
+module.exports.removePlayingCouple = function (socketId, io) {
     let removeIndex = undefined;
     for (let i = 0; i < playingCouples.length; i++) {
-        if (playingCouples[i].firstP === socket || playingCouples[i].secondP === socket) {
+        if (playingCouples[i].firstP.id === socketId || playingCouples[i].secondP.id === socketId) {
             removeIndex = i;
             io.in(playingCouples[i].firstP.id).emit('removeOpponent');
             io.in(playingCouples[i].secondP.id).emit('removeOpponent');
@@ -40,4 +39,5 @@ module.exports.setUpPlayerSelection = function (socket, io) {
         waitingPlayers.push(socket);
         DistributePlayers(io);
     });
+    socket.on('removePlayingCouple', () => this.removePlayingCouple(socket.id));
 }

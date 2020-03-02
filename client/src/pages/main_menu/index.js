@@ -9,7 +9,7 @@ const MainMenu = () => {
                 <MenuButton to="/singleplayer_tetris">
                     <MenuButtonText>Play offline</MenuButtonText>
                 </MenuButton>
-                <MenuButton to="/">
+                <MenuButton to="/multiplayer_tetris">
                     <MenuButtonText>Play online</MenuButtonText>
                 </MenuButton>
                 <MenuButton to="/">

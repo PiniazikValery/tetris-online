@@ -2,14 +2,12 @@ import React from 'react';
 import config from '../../config';
 import { connect } from 'react-redux';
 import { cloneDeep } from 'lodash';
-import { clearRows } from '../../actions';
-import { bindActionCreators } from 'redux';
 import Cell from '../cell';
 import { BoardArea } from './styles';
 
-const Board = ({ cells, currentTetromino, clearRows }) => {
+const Board = ({ cells, currentTetromino }) => {
     const Cells = () => {
-        return mergeCellsWithCurrentTetromino().map((row, rowIndex) => row.map((cell, cellIndex) => <Cell onClick={() => { clearRows(rowIndex, 1) }} key={rowIndex * 10 + cellIndex} color={cell && config.COLORS[cell]} />));
+        return mergeCellsWithCurrentTetromino().map((row, rowIndex) => row.map((cell, cellIndex) => <Cell key={rowIndex * 10 + cellIndex} color={cell && config.COLORS[cell]} />));
     }
 
     const mergeCellsWithCurrentTetromino = () => {
@@ -42,8 +40,4 @@ const mapStateToProps = state => ({
     currentTetromino: state.currentTetromino
 });
 
-const mapDispatchToProps = dispatch => ({
-    clearRows: bindActionCreators(clearRows, dispatch)
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Board);
+export default connect(mapStateToProps)(Board);
