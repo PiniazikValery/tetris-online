@@ -2,22 +2,19 @@ import styled from "styled-components";
 import { Link } from 'react-router-dom';
 
 export const MenuContainer = styled.div`
-    width: 20%;
-    height: 70%;
-
-    position:absolute; /*it can be fixed too*/
+    position:absolute;
     left:0; right:0;
     top:0; bottom:0;
     margin:auto;
-
-    /*this to solve "the content will not be cut when the window is smaller than the content": */
     max-width:100%;
     max-height:100%;
     overflow:auto;
 `
 
 export const MenuTitle = styled.title`
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 20%;
     text-align: center;
     font-family: "Courier New", Courier, monospace;
@@ -34,6 +31,8 @@ export const ButtonsContainer = styled.div`
 `
 
 export const MenuButton = styled(Link)`
+    align-self: center;
+    width: 40%;
     color: black;
     text-decoration: none;
     display: flex;
