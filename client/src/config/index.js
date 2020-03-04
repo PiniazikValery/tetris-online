@@ -65,7 +65,14 @@ const Config = {
     DEFENSIVE_SKILLS: {
         REMOVE_FIRST_ROW: {
             key: 49,
-            cost: 200
+            cost: 400
+        }
+    },
+    OFFENSIVE_SKILLS: {
+        ADD_TRASH_LINE: {
+            name: 'ADD_TRASH_LINE',
+            key: 50,
+            cost: 400
         }
     },
     SERVER_URL: "http://localhost:5000"

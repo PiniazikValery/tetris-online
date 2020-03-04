@@ -2,7 +2,7 @@ import { CONSTANTS } from '../../actions';
 
 const initialState = {
     socketId: undefined,
-    inboxAttacks: []
+    inputAttacks: []
 }
 
 const opponentReducer = (state = initialState, action) => {
@@ -13,6 +13,10 @@ const opponentReducer = (state = initialState, action) => {
         }
         case CONSTANTS.REMOVE_OPPONENT: {
             return { ...state, socketId: undefined };
+        }
+        case CONSTANTS.ADD_INPUT_ATTACK: {
+            let { attackType } = action.payload;
+            return { ...state, inputAttacks: [...state.inputAttacks, attackType] };
         }
         default: {
             return state;
