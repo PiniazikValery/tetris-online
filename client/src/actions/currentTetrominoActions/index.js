@@ -5,12 +5,17 @@ export const setCurrentTetromino = (newTetromino) => ({
     payload: newTetromino
 });
 
-export const refreshTetromino = () => {
+export const refreshTetromino = (anywayRefresh) => {
     return (dispatch, getState) => {
         let { game } = getState();
-        if (!game.isGameOver) {
+        if (anywayRefresh) {
             dispatch({ type: CONSTANTS.REFRESH_TETROMINO });
             dispatch({ type: CONSTANTS.REFRESHED });
+        } else {
+            if (!game.isGameOver) {
+                dispatch({ type: CONSTANTS.REFRESH_TETROMINO });
+                dispatch({ type: CONSTANTS.REFRESHED });
+            }
         }
     }
 };

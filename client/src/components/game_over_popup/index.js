@@ -1,13 +1,35 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { PopupBody, PopupTitle, PopupButton } from './styles';
+import { clearCells, refreshTetromino, resetScore, resetSpeed, setGameOver, resetPower, removeOpponent, setPlayerInSearch, setPlayerWin } from '../../actions';
+import { bindActionCreators } from 'redux';
+import { PopupBody, PopupTitle, PopupButton, PopupRouteButton, WinLose } from './styles';
 
-const GameOverPopup = ({ win, socket }) => {
+const GameOverPopup = ({ win, socket, beforePlayTimeout, setGameOver, setGameStarting, clearCells, refreshTetromino, resetScore, resetSpeed, resetPower, removeOpponent, setPlayerInSearch, setPlayerWin }) => {
+    const onPlayAgain = () => {
+        clearCells();
+        refreshTetromino(true);
+        resetScore();
+        resetSpeed();
+        resetPower();
+        setPlayerWin(undefined);
+        setGameStarting(true);
+        if (socket) {
+            removeOpponent();
+            setPlayerInSearch(true);
+            socket.emit('startPlayerSearch');
+        } else {
+            beforePlayTimeout.current = setTimeout(() => {
+                setGameOver(false);
+                setGameStarting(false);
+            }, 3000);
+        }
+    };
+
     return (<PopupBody>
         <PopupTitle>Game Over</PopupTitle>
-        {socket !== undefined && (win ? <div style={{ color: "green" }}>You are win</div> : <div style={{ color: "red" }}>You are lose</div>)}
-        <PopupButton>Play again</PopupButton>
-        <PopupButton>Back to main menu</PopupButton>
+        {socket !== undefined && <WinLose win={win} />}
+        <PopupButton onClick={onPlayAgain}>Play again</PopupButton>
+        <PopupRouteButton to="/">Back to main menu</PopupRouteButton>
     </PopupBody>);
 }
 
@@ -16,4 +38,16 @@ const mapStateToProps = state => ({
     socket: state.player.socket
 });
 
-export default connect(mapStateToProps)(GameOverPopup);
+const mapDispatchToProps = dispatch => ({
+    clearCells: bindActionCreators(clearCells, dispatch),
+    refreshTetromino: bindActionCreators(refreshTetromino, dispatch),
+    resetScore: bindActionCreators(resetScore, dispatch),
+    resetSpeed: bindActionCreators(resetSpeed, dispatch),
+    setGameOver: bindActionCreators(setGameOver, dispatch),
+    resetPower: bindActionCreators(resetPower, dispatch),
+    removeOpponent: bindActionCreators(removeOpponent, dispatch),
+    setPlayerInSearch: bindActionCreators(setPlayerInSearch, dispatch),
+    setPlayerWin: bindActionCreators(setPlayerWin, dispatch)
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(GameOverPopup);

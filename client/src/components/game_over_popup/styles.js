@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from 'react-router-dom';
 
 export const PopupBody = styled.div`
     position: absolute;
@@ -22,8 +23,9 @@ export const PopupTitle = styled.title`
     font-size:50px;
 `
 
-export const PopupButton = styled.div`
+export const PopupRouteButton = styled(Link)`
     cursor: pointer;
+    text-decoration: none;
     margin-top:25px;
     border-radius:10px;
     padding-top:5px;
@@ -38,5 +40,31 @@ export const PopupButton = styled.div`
     &:hover{
         filter: brightness(1.75);
         background: rgba(255, 255, 255, .12);
+    }
+`
+export const PopupButton = styled.div`
+    cursor: pointer;
+    text-decoration: none;
+    margin-top:25px;
+    border-radius:10px;
+    padding-top:5px;
+    padding-bottom:5px;
+    border: 2px solid #555;
+    font-size: 25px;
+    text-align: center;
+    width: 90%;
+    border-color: #ddd;
+    color: #ddd;
+    background: rgba(255, 255, 255, .1);
+    &:hover{
+        filter: brightness(1.75);
+        background: rgba(255, 255, 255, .12);
+    }
+`
+
+export const WinLose = styled.div`
+    color: ${props => props.win ? 'green' : 'red'};
+    &::after{
+        content: ${props => props.win ? '"You are win"' : '"You are lose"'};
     }
 `
