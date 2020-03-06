@@ -7,3 +7,21 @@ export const AreasHolder = styled.div`
     height: 100vh;
     background-color: gray;
 `
+
+export const LeftPanel = styled.div`
+    color: white;
+    text-align: center;
+    width: 30%;
+    &::after{
+        content:''
+    }
+`
+
+export const RightPanel = styled.div`
+    color: white;
+    text-align: center;
+    width: 30%;
+    &::after{
+        content:''
+    }
+`

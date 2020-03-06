@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { bindActionCreators } from 'redux';
-import { clearCells, refreshTetromino, resetScore, resetSpeed, setGameOver, resetPower, removeOpponent, setPlayerWin } from '../../actions';
+import { clearCells, refreshTetromino, resetScore, resetSpeed, setGameOver, resetPower, removeOpponent, setPlayerWin, clearInputAttacks } from '../../actions';
 import { connect } from 'react-redux';
-import { AreasHolder } from './styles';
+import { AreasHolder, LeftPanel, RightPanel } from './styles';
 import GameOverPopup from '../game_over_popup';
 import Board from '../board';
 
-const GameScene = ({ clearCells, refreshTetromino, resetScore, resetSpeed, setGameOver, resetPower, isGameOver, win, socket, removeOpponent, setPlayerWin }) => {
+const GameScene = ({ power, score, clearCells, refreshTetromino, resetScore, resetSpeed, setGameOver, resetPower, clearInputAttacks, win, socket, removeOpponent, setPlayerWin }) => {
     const [gameStarts, setGameStarting] = useState(true);
 
     let beforePlayTimeout = useRef(undefined);
@@ -18,18 +18,20 @@ const GameScene = ({ clearCells, refreshTetromino, resetScore, resetSpeed, setGa
         }, 3000)
         return function cleanUpScene() {
             clearTimeout(beforePlayTimeout.current);
-            clearCells();
             refreshTetromino(true);
             resetScore();
             resetSpeed();
             resetPower();
             setGameOver(true);
+            setGameStarting(true);
+            setPlayerWin(undefined);
             if (socket) {
+                clearInputAttacks();
                 removeOpponent();
-                setPlayerWin(undefined);
             }
+            clearCells();
         }
-    }, [clearCells, refreshTetromino, resetScore, resetSpeed, setGameOver, resetPower, beforePlayTimeout, socket, removeOpponent, setPlayerWin]);
+    }, [clearCells, refreshTetromino, resetScore, resetSpeed, setGameOver, resetPower, beforePlayTimeout, socket, removeOpponent, setPlayerWin, clearInputAttacks]);
 
     useEffect(() => {
         if (win !== undefined) {
@@ -41,7 +43,12 @@ const GameScene = ({ clearCells, refreshTetromino, resetScore, resetSpeed, setGa
 
     return (
         <AreasHolder>
+            <LeftPanel>
+                Current score: {score}<br />
+                {socket && `Current power: ${power}`}
+            </LeftPanel>
             <Board />
+            <RightPanel ></RightPanel>
             {!gameStarts && win !== undefined && <GameOverPopup beforePlayTimeout={beforePlayTimeout} setGameStarting={setGameStarting} />}
         </AreasHolder>
     );
@@ -55,13 +62,16 @@ const mapDispatchToProps = dispatch => ({
     setGameOver: bindActionCreators(setGameOver, dispatch),
     resetPower: bindActionCreators(resetPower, dispatch),
     removeOpponent: bindActionCreators(removeOpponent, dispatch),
-    setPlayerWin: bindActionCreators(setPlayerWin, dispatch)
+    setPlayerWin: bindActionCreators(setPlayerWin, dispatch),
+    clearInputAttacks: bindActionCreators(clearInputAttacks, dispatch)
 });
 
 const mapStateToProps = state => ({
     isGameOver: state.game.isGameOver,
     win: state.player.win,
-    socket: state.player.socket
+    socket: state.player.socket,
+    score: state.player.score,
+    power: state.player.power
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(GameScene);

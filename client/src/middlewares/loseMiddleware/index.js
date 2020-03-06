@@ -33,6 +33,20 @@ const loseMiddleware = store => next => action => {
             }
             return next(action);
         }
+        case CONSTANTS.ADD_TRASH_ROW: {
+            let { count } = action.payload;
+            let { cells } = store.getState();
+            for (let i = 0; i < count; i++) {
+                cells[i].forEach(cell => {
+                    if (cell) {
+                        setOpponentsWin(store);
+                        store.dispatch(setPlayerWin(false));
+                        return next(setGameOver(true));
+                    }
+                });
+            }
+            return next(action);
+        }
         default: {
             return next(action);
         }

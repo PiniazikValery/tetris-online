@@ -1,4 +1,4 @@
-import { setCurrentTetromino, refreshTetromino, mergeTetromino, removeFirstRow } from '../../actions';
+import { setCurrentTetromino, refreshTetromino, mergeTetromino, removeFirstRow, sendTrashRowToOpponent } from '../../actions';
 import config from '../../config';
 import { cloneDeep } from 'lodash';
 import { isCollides, hardDrop, getAvaliableClosePosition } from '../collision_handler';
@@ -111,6 +111,12 @@ class KeyActionsHandler {
             switch (element.keyCode) {
                 case config.DEFENSIVE_SKILLS.REMOVE_FIRST_ROW.key: {
                     skillsArray.push(removeFirstRow());
+                    break;
+                }
+                case config.OFFENSIVE_SKILLS.ADD_TRASH_LINE.key: {
+                    if (store.getState().opponent.socketId) {
+                        skillsArray.push(sendTrashRowToOpponent());
+                    }
                     break;
                 }
                 default: {
