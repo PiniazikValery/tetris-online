@@ -7,6 +7,5 @@ export const BoardArea = styled.div`
     align-items: flex-end;
     align-self: center;
     width: 50vh;
-    height: 100%;
     background-color: white;
 `

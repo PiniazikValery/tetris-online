@@ -1,12 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { clearCells, refreshTetromino, resetScore, resetSpeed, setGameOver, resetPower, removeOpponent, setPlayerInSearch, setPlayerWin } from '../../actions';
+import { clearCells, refreshTetromino, resetScore, resetSpeed, setGameOver, resetPower, removeOpponent, setPlayerInSearch, setPlayerWin, clearInputAttacks } from '../../actions';
 import { bindActionCreators } from 'redux';
 import { PopupBody, PopupTitle, PopupButton, PopupRouteButton, WinLose } from './styles';
 
-const GameOverPopup = ({ win, socket, beforePlayTimeout, setGameOver, setGameStarting, clearCells, refreshTetromino, resetScore, resetSpeed, resetPower, removeOpponent, setPlayerInSearch, setPlayerWin }) => {
+const GameOverPopup = ({ win, socket, beforePlayTimeout, clearInputAttacks, setGameOver, setGameStarting, clearCells, refreshTetromino, resetScore, resetSpeed, resetPower, removeOpponent, setPlayerInSearch, setPlayerWin }) => {
     const onPlayAgain = () => {
-        clearCells();
         refreshTetromino(true);
         resetScore();
         resetSpeed();
@@ -16,6 +15,7 @@ const GameOverPopup = ({ win, socket, beforePlayTimeout, setGameOver, setGameSta
         if (socket) {
             removeOpponent();
             setPlayerInSearch(true);
+            clearInputAttacks();
             socket.emit('startPlayerSearch');
         } else {
             beforePlayTimeout.current = setTimeout(() => {
@@ -23,6 +23,7 @@ const GameOverPopup = ({ win, socket, beforePlayTimeout, setGameOver, setGameSta
                 setGameStarting(false);
             }, 3000);
         }
+        clearCells();
     };
 
     return (<PopupBody>
@@ -47,7 +48,8 @@ const mapDispatchToProps = dispatch => ({
     resetPower: bindActionCreators(resetPower, dispatch),
     removeOpponent: bindActionCreators(removeOpponent, dispatch),
     setPlayerInSearch: bindActionCreators(setPlayerInSearch, dispatch),
-    setPlayerWin: bindActionCreators(setPlayerWin, dispatch)
+    setPlayerWin: bindActionCreators(setPlayerWin, dispatch),
+    clearInputAttacks: bindActionCreators(clearInputAttacks, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(GameOverPopup);

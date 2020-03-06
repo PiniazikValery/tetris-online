@@ -18,6 +18,9 @@ const opponentReducer = (state = initialState, action) => {
             let { attackType } = action.payload;
             return { ...state, inputAttacks: [...state.inputAttacks, attackType] };
         }
+        case CONSTANTS.CLEAR_INPUT_ATTACKS: {
+            return { ...state, inputAttacks: [] };
+        }
         default: {
             return state;
         }

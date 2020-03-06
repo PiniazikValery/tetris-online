@@ -7,7 +7,7 @@ import { BoardArea } from './styles';
 
 const Board = ({ cells, currentTetromino }) => {
     const Cells = () => {
-        return mergeCellsWithCurrentTetromino().map((row, rowIndex) => row.map((cell, cellIndex) => <Cell key={rowIndex * 10 + cellIndex} color={cell && config.COLORS[cell]} />));
+        return mergeCellsWithCurrentTetromino().map((row, rowIndex) => row.map((cell, cellIndex) => <Cell key={rowIndex * 10 + cellIndex} color={cell && config.COLORS[cell - 1]} />));
     }
 
     const mergeCellsWithCurrentTetromino = () => {

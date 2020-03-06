@@ -26,8 +26,9 @@ export const mergeTetromino = tetromino => {
     }
 };
 
-export const addTrashRow = () => ({
-    type: CONSTANTS.ADD_TRASH_ROW
+export const addTrashRow = count => ({
+    type: CONSTANTS.ADD_TRASH_ROW,
+    payload: { count }
 });
 
 export const removeFirstRow = () => ({

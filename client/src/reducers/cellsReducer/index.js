@@ -54,11 +54,25 @@ const cellsReducer = (state = initialState, action) => {
             tetromino.shape.forEach((tetroRow, tetroRowIndex) => tetroRow.forEach((tetroCell, tetroColIndex) => {
                 if (tetroCell) {
                     try {
-                        workCells[tetroRowIndex + tetromino.y][tetroColIndex + tetromino.x] = 5;
+                        workCells[tetroRowIndex + tetromino.y][tetroColIndex + tetromino.x] = tetromino.shape[tetroRowIndex][tetroColIndex];
                     } catch { }
                 }
             }));
             return workCells;
+        }
+        case CONSTANTS.ADD_TRASH_ROW: {
+            let { count } = action.payload;
+            let resultCells = clone(state);
+            let generateTrashRow = () => {
+                let result = Array(config.COLS).fill(8);
+                result[Math.floor(Math.random() * config.COLS)] = 0;
+                return result;
+            };
+            resultCells.splice(0, count);
+            for (let i = 1; i <= count; i++) {
+                resultCells.push(generateTrashRow());
+            }
+            return resultCells;
         }
         default: {
             return state;
