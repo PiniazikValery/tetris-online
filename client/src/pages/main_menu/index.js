@@ -1,5 +1,8 @@
 import React from 'react';
-import { MenuContainer, MenuTitle, MenuButton, ButtonsContainer, MenuButtonText } from './styles';
+import {
+    MenuContainer, MenuTitle, MenuButton,
+    ButtonsContainer, MenuButtonText
+} from './styles';
 
 const MainMenu = () => {
     return (

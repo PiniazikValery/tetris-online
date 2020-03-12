@@ -1,4 +1,7 @@
-import { setCurrentTetromino, refreshTetromino, mergeTetromino, removeFirstRow, sendTrashRowToOpponent } from '../../actions';
+import {
+    setCurrentTetromino, refreshTetromino, mergeTetromino,
+    removeFirstRow, sendTrashRowToOpponent
+} from '../../actions';
 import config from '../../config';
 import { cloneDeep } from 'lodash';
 import { isCollides, hardDrop, getAvaliableClosePosition } from '../collision_handler';

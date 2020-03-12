@@ -1,12 +1,18 @@
 import React, { useEffect } from 'react';
 import { Loader, CenterWrapper } from './styles';
-import { connectPlayerToServer, removeOpponent, disconnectPlayerFromServer, setPlayerInSearch } from '../../actions';
+import {
+    connectPlayerToServer, removeOpponent, disconnectPlayerFromServer,
+    setPlayerInSearch
+} from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import GameScene from '../../components/game_scene';
 import GameEngine from '../../components/game_engine';
 
-const MultiplayerTetris = ({ connectPlayerToServer, socket, removeOpponent, disconnectPlayerFromServer, inSearch, setPlayerInSearch }) => {
+const MultiplayerTetris = ({
+    connectPlayerToServer, socket, removeOpponent,
+    disconnectPlayerFromServer, inSearch, setPlayerInSearch
+}) => {
     useEffect(() => {
         connectPlayerToServer();
         return () => {
@@ -14,7 +20,10 @@ const MultiplayerTetris = ({ connectPlayerToServer, socket, removeOpponent, disc
             removeOpponent();
             setPlayerInSearch(true);
         }
-    }, [connectPlayerToServer, disconnectPlayerFromServer, removeOpponent, setPlayerInSearch]);
+    }, [
+        connectPlayerToServer, disconnectPlayerFromServer, removeOpponent,
+        setPlayerInSearch
+    ]);
 
     useEffect(() => {
         if (socket) {

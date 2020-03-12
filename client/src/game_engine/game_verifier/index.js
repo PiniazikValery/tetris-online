@@ -1,5 +1,9 @@
-import { changeGameVerifierActivationStatus, refreshTetromino, mergeTetromino, clearRows, increaseSpeed, increaseScore, increasePower } from '../../actions';
-import { isCollides, hardDrop } from '../collision_handler';
+import {
+    offOnGameActivationWithDelay, offOnGameLoopWithDelay, refreshTetromino, mergeTetromino,
+    clearRows, increaseSpeed, increaseScore,
+    increasePower
+} from '../../actions';
+import { isCollides, getHardDropedTetromino } from '../collision_handler';
 import store from '../../store';
 
 class GameVerifier {
@@ -13,9 +17,8 @@ class GameVerifier {
                 y: 1
             }
         )) {
-            clearTimeout(this.settingTimeout);
-            store.dispatch(changeGameVerifierActivationStatus(false));
-            this.settingTimeout = setTimeout((y) => {
+            store.dispatch(offOnGameActivationWithDelay((params) => {
+                let { y, currentId } = params;
                 let { currentTetromino } = store.getState();
                 let { id } = currentTetromino;
                 if (currentTetromino.y >= y) {
@@ -26,13 +29,12 @@ class GameVerifier {
                             y: currentTetromino.shape.length / 2
                         }
                     ) && currentId === id) {
-                        store.dispatch(mergeTetromino(hardDrop(currentTetromino)));
+                        store.dispatch(mergeTetromino(getHardDropedTetromino(currentTetromino)));
+                        store.dispatch(offOnGameLoopWithDelay(undefined, 1000));
                         store.dispatch(refreshTetromino());
                     }
                 }
-                store.dispatch(changeGameVerifierActivationStatus(true));
-            }, 1000, currentTetromino.y);
-
+            }, 1000, { y: currentTetromino.y, currentId }));
         }
     }
 

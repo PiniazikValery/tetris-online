@@ -1,10 +1,24 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { clearCells, refreshTetromino, resetScore, resetSpeed, setGameOver, resetPower, removeOpponent, setPlayerInSearch, setPlayerWin, clearInputAttacks } from '../../actions';
+import {
+    clearCells, refreshTetromino, resetScore,
+    resetSpeed, setGameOver, resetPower,
+    removeOpponent, setPlayerInSearch, setPlayerWin,
+    clearInputAttacks
+} from '../../actions';
 import { bindActionCreators } from 'redux';
-import { PopupBody, PopupTitle, PopupButton, PopupRouteButton, WinLose } from './styles';
+import {
+    PopupBody, PopupTitle, PopupButton,
+    PopupRouteButton, WinLose
+} from './styles';
 
-const GameOverPopup = ({ win, socket, beforePlayTimeout, clearInputAttacks, setGameOver, setGameStarting, clearCells, refreshTetromino, resetScore, resetSpeed, resetPower, removeOpponent, setPlayerInSearch, setPlayerWin }) => {
+const GameOverPopup = ({
+    win, socket, beforePlayTimeout,
+    clearInputAttacks, setGameOver, setGameStarting,
+    clearCells, refreshTetromino, resetScore,
+    resetSpeed, resetPower, removeOpponent,
+    setPlayerInSearch, setPlayerWin
+}) => {
     const onPlayAgain = () => {
         refreshTetromino(true);
         resetScore();
