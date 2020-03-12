@@ -1,9 +1,7 @@
 import { cloneDeep } from 'lodash';
-import { changeGameLoopActivationStatus } from '../../actions';
+import { offOnGameLoopWithDelay } from '../../actions';
 import store from '../../store';
 import config from '../../config';
-
-let hardDropTimeout = undefined;
 
 export const isCollides = function (tetromino, offset = { x: 0, y: 0 }) {
     let { cells } = store.getState();
@@ -55,10 +53,15 @@ export const hardDrop = function (tetromino) {
         workTetromino.y++;
     }
     workTetromino.y--;
-    clearTimeout(hardDropTimeout);
-    store.dispatch(changeGameLoopActivationStatus(false));
-    hardDropTimeout = setTimeout(() => {
-        store.dispatch(changeGameLoopActivationStatus(true));
-    }, 1000);
+    store.dispatch(offOnGameLoopWithDelay(undefined, 1000));
+    return workTetromino;
+}
+
+export const getHardDropedTetromino = function (tetromino) {
+    let workTetromino = cloneDeep(tetromino);
+    while (isCollides(workTetromino)) {
+        workTetromino.y++;
+    }
+    workTetromino.y--;
     return workTetromino;
 }

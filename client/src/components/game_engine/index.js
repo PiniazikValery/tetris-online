@@ -6,7 +6,11 @@ import GameVerifier from '../../game_engine/game_verifier';
 import KeysHandler from '../../game_engine/keys_handler';
 import { changeGameLoopActivationStatus, changeGameVerifierActivationStatus } from '../../actions';
 
-const GameEngine = ({ gameLoopActivated, currentTetromino, gameVerifierActivated, cells, isGameOver, changeGameVerifierActivationStatus, changeGameLoopActivationStatus }) => {
+const GameEngine = ({
+    gameLoopActivated, currentTetromino, gameVerifierActivated,
+    cells, isGameOver, changeGameVerifierActivationStatus,
+    changeGameLoopActivationStatus
+}) => {
     const gameVerifier = useRef(new GameVerifier());
     const gameLoop = useRef(new GameLoop());
     const keysHandler = useRef(new KeysHandler());

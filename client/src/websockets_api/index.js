@@ -1,5 +1,8 @@
 import store from '../store';
-import { setOpponent, removeOpponent, setPlayerWin, setGameOver, setPlayerInSearch, addInputAttack } from '../actions';
+import {
+    setOpponent, removeOpponent, setPlayerWin,
+    setGameOver, setPlayerInSearch, addInputAttack
+} from '../actions';
 
 export const setUpApi = socket => {
     socket.on('setOpponent', opponentId => {
